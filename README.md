@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0.3 — kullanıcı yönetimi Edge Function üzerinden çalışıyor; pasif kullanıcıların şirket üyeliği de kapanıyor; proje/günlük/iş/malzeme/hakediş/bütçe/metraj erişimleri şirket bazlı RLS ile sıkılaştırıldı.
+Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0.4 — kullanıcı yönetimi şirket bazında sınırlandırıldı; yönetici paneline rol değiştirme ve şifre sıfırlama eklendi; yönetici işlemleri aktivite günlüğüne kaydediliyor.
