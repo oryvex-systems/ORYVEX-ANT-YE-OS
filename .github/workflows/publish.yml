@@ -75,9 +75,23 @@ jobs:
             grep -q 'pwa.js' "$f" || { echo "PWA helper missing from $f"; exit 1; }
             grep -q 'manifest.webmanifest' "$f" || { echo "Manifest link missing from $f"; exit 1; }
           done
+
+          # Company-internal authentication contract: username/password only, no public sign-up UI.
+          grep -q 'name="username"' publish/giris.html
+          grep -q 'name="password"' publish/giris.html
           grep -q 'santiye-username-login' publish/giris.html
+          ! grep -qi 'Kayıt Ol' publish/giris.html || { echo 'Public sign-up text found on login screen'; exit 1; }
+          ! grep -qi 'name="email"' publish/giris.html || { echo 'Email login field found; internal username login is required'; exit 1; }
+
+          # Admin-only user provisioning must remain wired to protected server functions.
           grep -q 'santiye-admin-user' publish/kullanicilar.html
           grep -q 'santiye-admin-users' publish/kullanicilar.html
+          grep -q 'santiye_internal_users' publish/kullanicilar.html
+
+          # Core application modules must remain reachable from the unified module screen.
+          for mode in projeler gunluk isler malzeme satinalma taseron hakedis fotograf bildirim; do
+            grep -q "${mode}" publish/modul.html || { echo "Missing module mode: ${mode}"; exit 1; }
+          done
           grep -q 'santiye_projects' publish/index.html
           grep -q 'santiye_projects' publish/modul.html
           grep -q 'santiye_projects' publish/sistem-kontrol.html
