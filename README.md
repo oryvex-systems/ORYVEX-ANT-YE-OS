@@ -7,3 +7,5 @@ Canlı alan adı: `revakhali.info`
 Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininden GitHub Actions ile yapılır.
 
 Yayın: GitHub Pages (`gh-pages`).
+
+Son senkronizasyon tetiklemesi: raporlar ve ayarlar oturum akışı + ortak modül navigasyonu.
