@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0.6 — Merkez, Raporlar, Yönetici Zekâsı ve Ayarlar ekranlarındaki eski e-posta girişleri kaldırıldı; tümü şirket içi kullanıcı adı/şifre oturumuna bağlandı; yönetim, finans, depo ve satın alma verileri şirket bazında sınırlandırıldı.
+Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0.7 — şirket üyeliği zorunlu oturum koruması güçlendirildi, kullanıcı rolü ve aktif şirket kimliği tüm modüllere taşındı, ana panel verileri aktif şirkete göre yeniden kapsamlandırıldı ve mobil modül menüsü iyileştirildi.
