@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: özel şantiye fotoğrafları için güvenli yükleme + imzalı önizleme akışı ve şirket bazlı proje/evrak/fotoğraf RLS sertleştirmesi.
+Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0 — şirket içi kullanıcı adı/şifre girişi, yönetici kullanıcı paneli ve bağlı modül ekranları.
