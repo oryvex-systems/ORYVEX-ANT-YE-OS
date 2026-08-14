@@ -59,7 +59,7 @@ jobs:
       - name: Validate app surface
         run: |
           set -euo pipefail
-          required=(index.html giris.html modul.html kullanicilar.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js session-watch.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg)
+          required=(index.html giris.html modul.html kullanicilar.html sistem-kontrol.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js session-watch.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg)
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
@@ -76,11 +76,13 @@ jobs:
           grep -q 'santiye-admin-users' publish/kullanicilar.html
           grep -q 'santiye_projects' publish/index.html
           grep -q 'santiye_projects' publish/modul.html
+          grep -q 'santiye_projects' publish/sistem-kontrol.html
           grep -q 'santiye_management_summary' publish/merkez.html
           grep -q 'santiye_stock' publish/depo-evrak.html
           grep -q 'santiye_activity_log' publish/hareketler.html
           grep -q 'santiye' publish/finans.html
           grep -q 'santiye_internal_users' publish/global-nav.js
+          grep -q 'sistem-kontrol.html' publish/global-nav.js
           grep -q 'createRoles' publish/access-ui.js
           grep -q 'setInterval(verify' publish/session-watch.js
           grep -q 'serviceWorker' publish/pwa.js
