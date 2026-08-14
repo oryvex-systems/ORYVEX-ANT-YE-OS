@@ -37,6 +37,9 @@ jobs:
             if [ -f "$f" ] && ! grep -q 'global-nav.js' "$f"; then
               sed -i 's#</body>#<script src="global-nav.js"></script></body>#' "$f"
             fi
+            if [ -f "$f" ] && ! grep -q 'activity-nav.js' "$f"; then
+              sed -i 's#</body>#<script src="activity-nav.js"></script></body>#' "$f"
+            fi
             if [ -f "$f" ] && ! grep -q 'access-ui.js' "$f"; then
               sed -i 's#</body>#<script src="access-ui.js"></script></body>#' "$f"
             fi
@@ -47,12 +50,13 @@ jobs:
       - name: Validate app surface
         run: |
           set -euo pipefail
-          required=(index.html giris.html modul.html kullanicilar.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html global-nav.js access-ui.js)
+          required=(index.html giris.html modul.html kullanicilar.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js)
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
           for f in publish/*.html; do
             grep -q 'global-nav.js' "$f" || { echo "Global navigation missing from $f"; exit 1; }
+            grep -q 'activity-nav.js' "$f" || { echo "Activity navigation missing from $f"; exit 1; }
             grep -q 'access-ui.js' "$f" || { echo "Role UI guard missing from $f"; exit 1; }
           done
           grep -q 'santiye-username-login' publish/giris.html
@@ -61,6 +65,7 @@ jobs:
           grep -q 'santiye_projects' publish/modul.html
           grep -q 'santiye_management_summary' publish/merkez.html
           grep -q 'santiye_stock' publish/depo-evrak.html
+          grep -q 'santiye_activity_log' publish/hareketler.html
           grep -q 'santiye' publish/finans.html
           grep -q 'santiye_internal_users' publish/global-nav.js
           grep -q 'createRoles' publish/access-ui.js
