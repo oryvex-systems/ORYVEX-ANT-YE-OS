@@ -33,6 +33,11 @@ jobs:
           rm -rf publish
           mkdir -p publish
           cp -a oryvex-source/apps/oryvex-revakhali/. publish/
+          for f in publish/*.html; do
+            if [ -f "$f" ] && ! grep -q 'global-nav.js' "$f"; then
+              sed -i 's#</body>#<script src="global-nav.js"></script></body>#' "$f"
+            fi
+          done
           echo 'revakhali.info' > publish/CNAME
           touch publish/.nojekyll
 
