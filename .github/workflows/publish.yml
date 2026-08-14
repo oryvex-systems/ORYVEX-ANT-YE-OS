@@ -41,6 +41,23 @@ jobs:
           echo 'revakhali.info' > publish/CNAME
           touch publish/.nojekyll
 
+      - name: Validate app surface
+        run: |
+          set -euo pipefail
+          required=(index.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html global-nav.js)
+          for f in "${required[@]}"; do
+            test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
+          done
+          for f in publish/*.html; do
+            grep -q 'global-nav.js' "$f" || { echo "Global navigation missing from $f"; exit 1; }
+          done
+          grep -q 'santiye_projects' publish/index.html
+          grep -q 'santiye_management_summary' publish/merkez.html
+          grep -q 'santiye_stock' publish/depo-evrak.html
+          grep -q 'santiye' publish/finans.html
+          grep -q 'revakhali.info' publish/CNAME
+          echo "ORYVEX SANTIYE OS validation passed."
+
       - name: Publish gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
