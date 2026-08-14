@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: raporlar ve ayarlar oturum akışı + ortak modül navigasyonu.
+Son senkronizasyon tetiklemesi: özel şantiye fotoğrafları için güvenli yükleme + imzalı önizleme akışı ve şirket bazlı proje/evrak/fotoğraf RLS sertleştirmesi.
