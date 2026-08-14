@@ -34,6 +34,9 @@ jobs:
           mkdir -p publish
           cp -a oryvex-source/apps/oryvex-revakhali/. publish/
           for f in publish/*.html; do
+            if [ -f "$f" ] && ! grep -q 'manifest.webmanifest' "$f"; then
+              sed -i 's#</head>#<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="oryvex-santiye-icon.svg" type="image/svg+xml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ŞANTİYE OS"></head>#' "$f"
+            fi
             if [ -f "$f" ] && ! grep -q 'global-nav.js' "$f"; then
               sed -i 's#</body>#<script src="global-nav.js"></script></body>#' "$f"
             fi
@@ -43,6 +46,9 @@ jobs:
             if [ -f "$f" ] && ! grep -q 'access-ui.js' "$f"; then
               sed -i 's#</body>#<script src="access-ui.js"></script></body>#' "$f"
             fi
+            if [ -f "$f" ] && ! grep -q 'pwa.js' "$f"; then
+              sed -i 's#</body>#<script src="pwa.js"></script></body>#' "$f"
+            fi
           done
           echo 'revakhali.info' > publish/CNAME
           touch publish/.nojekyll
@@ -50,7 +56,7 @@ jobs:
       - name: Validate app surface
         run: |
           set -euo pipefail
-          required=(index.html giris.html modul.html kullanicilar.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js)
+          required=(index.html giris.html modul.html kullanicilar.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg)
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
@@ -58,9 +64,12 @@ jobs:
             grep -q 'global-nav.js' "$f" || { echo "Global navigation missing from $f"; exit 1; }
             grep -q 'activity-nav.js' "$f" || { echo "Activity navigation missing from $f"; exit 1; }
             grep -q 'access-ui.js' "$f" || { echo "Role UI guard missing from $f"; exit 1; }
+            grep -q 'pwa.js' "$f" || { echo "PWA helper missing from $f"; exit 1; }
+            grep -q 'manifest.webmanifest' "$f" || { echo "Manifest link missing from $f"; exit 1; }
           done
           grep -q 'santiye-username-login' publish/giris.html
           grep -q 'santiye-admin-user' publish/kullanicilar.html
+          grep -q 'santiye-admin-users' publish/kullanicilar.html
           grep -q 'santiye_projects' publish/index.html
           grep -q 'santiye_projects' publish/modul.html
           grep -q 'santiye_management_summary' publish/merkez.html
@@ -69,7 +78,15 @@ jobs:
           grep -q 'santiye' publish/finans.html
           grep -q 'santiye_internal_users' publish/global-nav.js
           grep -q 'createRoles' publish/access-ui.js
+          grep -q 'serviceWorker' publish/pwa.js
+          grep -q 'standalone' publish/manifest.webmanifest
           grep -q 'revakhali.info' publish/CNAME
+          node --check publish/global-nav.js
+          node --check publish/activity-nav.js
+          node --check publish/access-ui.js
+          node --check publish/pwa.js
+          node --check publish/service-worker.js
+          node -e "JSON.parse(require('fs').readFileSync('publish/manifest.webmanifest','utf8'))"
           echo "ORYVEX SANTIYE OS validation passed."
 
       - name: Publish gh-pages branch
