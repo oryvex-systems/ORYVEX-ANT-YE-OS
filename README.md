@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: sistem sağlık ekranı şirket bazlı kullanıcı yönetici API doğrulaması, proje kapsamlı veri kontrolleri ve canlı modül sorguları ile güçlendirildi.
+Son senkronizasyon tetiklemesi: PWA önbelleği network-first v2 yapısına geçirildi, güvenli 404 yönlendirmesi eklendi ve sistem sağlık kontrolleri canlı şirket verisiyle güçlendirildi.
