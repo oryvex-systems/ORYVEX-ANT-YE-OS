@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: Sistem Kontrol ekranında finans hareketleri şirket hesapları üzerinden doğru kapsamda doğrulanacak şekilde düzeltildi; personel ve bildirim sağlık kontrolleri de eklendi.
+Son senkronizasyon tetiklemesi: Misafir modu aktif edildi; giriş zorunluluğu geçici olarak kaldırıldı ve yayın yeniden tetiklendi.
