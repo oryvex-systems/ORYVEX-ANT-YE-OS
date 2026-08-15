@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: şirket içi erişim sertleştirildi; oturum ve şirket üyeliği doğrulanmadan uygulama ekranları görünür hale gelmiyor.
+Son senkronizasyon tetiklemesi: şirket içi kullanıcı adı/şifre girişinde mobil kullanılabilirlik geliştirildi; şifre göster/gizle, Caps Lock uyarısı ve isteğe bağlı kullanıcı adı hatırlama eklendi.
