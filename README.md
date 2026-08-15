@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: mobil kullanım için çevrimdışı uygulama kabuğu güçlendirildi; ana ekran ve temel modül yüzeyleri service worker önbelleğine alındı, ağ kesintisinde son erişilen ekranların açılması iyileştirildi.
+Son senkronizasyon tetiklemesi: ana saha modüllerine doğrudan URL yüzeyleri eklendi (projeler, günlük, iş programı, malzeme, satın alma, taşeronlar, hakedişler, fotoğraflar ve bildirimler); mevcut rol kontrollü dinamik modül ekranlarına güvenli yönlendirme yapılıyor.
