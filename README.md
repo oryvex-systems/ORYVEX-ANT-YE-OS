@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: CAMİ PRO iş programı + finans standardı ŞANTİYE OS'a taşındı. Planlayıcı teknik kişi senaryoyu kurar; AI kontrol motoru gecikme, kaynak, satın alma, nakit ve hakediş risklerini denetler. İş paketleri, kaynak/tedarik ihtiyaçları, finans takvimi ve tamamlanan imalatın hakedişe dönüşü birbirine bağlandı.
+Son senkronizasyon tetiklemesi: CAMİ PRO planlama-finans motoru ana panele aktif bağlandı. Planlama & Finans Kontrol Merkezi ve Şantiye Nakit Akışı öne çıkarıldı; iş programı → kaynak → tedarik → avans → imalat → hakediş → tahsilat zinciri canlı veri yapısına bağlanıyor. Misafir test modu geçici olarak aktiftir.
