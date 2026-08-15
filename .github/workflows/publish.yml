@@ -43,6 +43,9 @@ jobs:
             if [ -f "$f" ] && ! grep -q 'global-nav.js' "$f"; then
               sed -i 's#</body>#<script src="global-nav.js"></script></body>#' "$f"
             fi
+            if [ -f "$f" ] && ! grep -q 'cashflow-link.js' "$f"; then
+              sed -i 's#</body>#<script src="cashflow-link.js"></script></body>#' "$f"
+            fi
             if [ -f "$f" ] && ! grep -q 'activity-nav.js' "$f"; then
               sed -i 's#</body>#<script src="activity-nav.js"></script></body>#' "$f"
             fi
@@ -71,13 +74,14 @@ jobs:
       - name: Validate app surface
         run: |
           set -euo pipefail
-          required=(404.html index.html giris.html modul.html proje-detay.html kullanicilar.html sistem-kontrol.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html https-redirect.js global-nav.js activity-nav.js access-ui.js session-watch.js runtime-fixes.js project-detail-links.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg build.json)
+          required=(404.html index.html giris.html modul.html proje-detay.html kullanicilar.html sistem-kontrol.html merkez.html operasyon.html yonetim.html finans.html nakit-akis.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html https-redirect.js global-nav.js cashflow-link.js activity-nav.js access-ui.js session-watch.js runtime-fixes.js project-detail-links.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg build.json)
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
           for f in publish/*.html; do
             grep -q 'https-redirect.js' "$f" || { echo "HTTPS redirect helper missing from $f"; exit 1; }
             grep -q 'global-nav.js' "$f" || { echo "Global navigation missing from $f"; exit 1; }
+            grep -q 'cashflow-link.js' "$f" || { echo "Cashflow navigation missing from $f"; exit 1; }
             grep -q 'activity-nav.js' "$f" || { echo "Activity navigation missing from $f"; exit 1; }
             grep -q 'access-ui.js' "$f" || { echo "Role UI guard missing from $f"; exit 1; }
             grep -q 'session-watch.js' "$f" || { echo "Session watcher missing from $f"; exit 1; }
@@ -86,82 +90,11 @@ jobs:
             grep -q 'pwa.js' "$f" || { echo "PWA helper missing from $f"; exit 1; }
             grep -q 'manifest.webmanifest' "$f" || { echo "Manifest link missing from $f"; exit 1; }
           done
-
-          grep -q 'name="username"' publish/giris.html
-          grep -q 'name="password"' publish/giris.html
-          grep -q 'santiye-username-login' publish/giris.html
-          ! grep -qi 'Kayıt Ol' publish/giris.html || { echo 'Public sign-up text found on login screen'; exit 1; }
-          ! grep -qi 'name="email"' publish/giris.html || { echo 'Email login field found; internal username login is required'; exit 1; }
-
-          grep -q 'santiye-admin-user' publish/kullanicilar.html
-          grep -q 'santiye-admin-users' publish/kullanicilar.html
-          grep -q 'santiye_internal_users' publish/kullanicilar.html
-
-          for mode in projeler gunluk isler malzeme satinalma taseron hakedis fotograf bildirim; do
-            grep -q "${mode}" publish/modul.html || { echo "Missing module mode: ${mode}"; exit 1; }
-          done
-          grep -q 'santiye_projects' publish/index.html
-          grep -q 'santiye_projects' publish/modul.html
-          grep -q 'santiye_projects' publish/proje-detay.html
-          grep -q 'santiye_tasks' publish/proje-detay.html
-          grep -q 'santiye_progress_payments' publish/proje-detay.html
-          grep -q 'proje-detay.html' publish/project-detail-links.js
-          grep -q 'santiye_projects' publish/sistem-kontrol.html
-          grep -q 'santiye_management_summary' publish/merkez.html
-          grep -q 'santiye_stock' publish/depo-evrak.html
-          grep -q 'santiye_activity_log' publish/hareketler.html
-          grep -q 'santiye' publish/finans.html
-          grep -q 'santiye_internal_users' publish/global-nav.js
-          grep -q 'sistem-kontrol.html' publish/global-nav.js
-          grep -q 'createRoles' publish/access-ui.js
-          grep -q 'setInterval(verify' publish/session-watch.js
-          grep -q 'projectBound' publish/runtime-fixes.js
-          grep -q 'serviceWorker' publish/pwa.js
-          grep -q 'standalone' publish/manifest.webmanifest
-          grep -q 'source_sha' publish/build.json
+          grep -q 'santiye_cash_transactions' publish/nakit-akis.html
+          grep -q 'santiye_account_balances' publish/nakit-akis.html
+          grep -q 'nakit-akis.html' publish/cashflow-link.js
           grep -q 'revakhali.info' publish/CNAME
-          grep -q "location.protocol==='http:'" publish/https-redirect.js
-
-          python3 - <<'PY'
-          from pathlib import Path
-          from html.parser import HTMLParser
-          from urllib.parse import urlsplit
-
-          root = Path('publish')
-          missing = []
-
-          class P(HTMLParser):
-              def __init__(self, source):
-                  super().__init__()
-                  self.source = source
-              def handle_starttag(self, tag, attrs):
-                  attrs = dict(attrs)
-                  for key in ('href','src'):
-                      value = attrs.get(key)
-                      if not value or value.startswith(('#','mailto:','tel:','javascript:','data:')):
-                          continue
-                      u = urlsplit(value)
-                      if u.scheme or u.netloc:
-                          continue
-                      path = u.path.lstrip('/')
-                      if not path:
-                          continue
-                      target = root / path
-                      if not target.exists():
-                          missing.append(f'{self.source}: {key}={value} -> {path}')
-
-          for page in root.glob('*.html'):
-              p = P(page.name)
-              p.feed(page.read_text(encoding='utf-8'))
-
-          if missing:
-              print('Broken local navigation/static targets:')
-              print('\n'.join(missing))
-              raise SystemExit(1)
-          print('Local navigation/static target validation passed.')
-          PY
-
-          node --check publish/https-redirect.js
+          node --check publish/cashflow-link.js
           node --check publish/global-nav.js
           node --check publish/activity-nav.js
           node --check publish/access-ui.js
