@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: CAMİ PRO planlama-finans motoru ana panele aktif bağlandı. Planlama & Finans Kontrol Merkezi ve Şantiye Nakit Akışı öne çıkarıldı; iş programı → kaynak → tedarik → avans → imalat → hakediş → tahsilat zinciri canlı veri yapısına bağlanıyor. Misafir test modu geçici olarak aktiftir.
+Son senkronizasyon tetiklemesi: Resmi Süreç Merkezi ve gelişmiş Dijital Şantiye Defteri devreye alındı. Şantiye-M, YDS/UYDS ve yetki belgesi süreç takibi; hava, mahal, saha ilerlemesi, teknik personel, fiili işçi, makine-teçhizat, görüşme/karar, ziyaret, güvenlik ve fotoğraf alanları Supabase veri modeline eklendi. Resmi API doğrulanmadan otomatik Bakanlık gönderimi yapılmaz; resmi sisteme geçiş ve dışa aktarılabilir kayıt mantığı esas alınır. Misafir test modu geçici olarak aktiftir.
