@@ -108,6 +108,46 @@ jobs:
           grep -q 'standalone' publish/manifest.webmanifest
           grep -q 'source_sha' publish/build.json
           grep -q 'revakhali.info' publish/CNAME
+
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit
+
+          root = Path('publish')
+          missing = []
+
+          class P(HTMLParser):
+              def __init__(self, source):
+                  super().__init__()
+                  self.source = source
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  for key in ('href','src'):
+                      value = attrs.get(key)
+                      if not value or value.startswith(('#','mailto:','tel:','javascript:','data:')):
+                          continue
+                      u = urlsplit(value)
+                      if u.scheme or u.netloc:
+                          continue
+                      path = u.path.lstrip('/')
+                      if not path:
+                          continue
+                      target = root / path
+                      if not target.exists():
+                          missing.append(f'{self.source}: {key}={value} -> {path}')
+
+          for page in root.glob('*.html'):
+              p = P(page.name)
+              p.feed(page.read_text(encoding='utf-8'))
+
+          if missing:
+              print('Broken local navigation/static targets:')
+              print('\n'.join(missing))
+              raise SystemExit(1)
+          print('Local navigation/static target validation passed.')
+          PY
+
           node --check publish/global-nav.js
           node --check publish/activity-nav.js
           node --check publish/access-ui.js
