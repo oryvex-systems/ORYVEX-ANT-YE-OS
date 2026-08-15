@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: PWA önbelleği network-first v2 yapısına geçirildi, güvenli 404 yönlendirmesi eklendi ve sistem sağlık kontrolleri canlı şirket verisiyle güçlendirildi.
+Son senkronizasyon tetiklemesi: şirket içi oturum kontrolü sayfa açılışında anında çalışacak şekilde sertleştirildi; PWA önbelleği korumalı ekranları çevrimdışı saklamayacak güvenli yapıya geçirildi.
