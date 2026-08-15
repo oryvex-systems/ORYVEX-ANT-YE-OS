@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: şirket içi oturum kontrolü sayfa açılışında anında çalışacak şekilde sertleştirildi; PWA önbelleği korumalı ekranları çevrimdışı saklamayacak güvenli yapıya geçirildi.
+Son senkronizasyon tetiklemesi: şirket içi erişim sertleştirildi; oturum ve şirket üyeliği doğrulanmadan uygulama ekranları görünür hale gelmiyor.
