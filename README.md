@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: ORYVEX ŞANTİYE OS v1.0.8 — Ayarlar ekranına güvenli kullanıcı şifresi değiştirme akışı ve yönetici kullanıcı paneli bağlantısı eklendi; Raporlar ekranına zaman damgalı Yazdır/PDF çıktısı eklendi; şirket içi oturum ve rol koruması korunarak mobil kullanım iyileştirildi.
+Son senkronizasyon tetiklemesi: sistem sağlık ekranı şirket bazlı kullanıcı yönetici API doğrulaması, proje kapsamlı veri kontrolleri ve canlı modül sorguları ile güçlendirildi.
