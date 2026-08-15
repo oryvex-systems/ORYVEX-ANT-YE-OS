@@ -8,4 +8,4 @@ Kaynak senkronizasyonu ORYVEX ana deposundaki `apps/oryvex-revakhali/` dizininde
 
 Yayın: GitHub Pages (`gh-pages`).
 
-Son senkronizasyon tetiklemesi: mobil kullanım için sabit hızlı alt menü eklendi; Ana Panel, Projeler, Günlük, İş Programı ve tam modül menüsüne tek dokunuş erişim sağlandı. Rol yetkileri mobil kısayollarda da uygulanıyor.
+Son senkronizasyon tetiklemesi: mobil kullanım için çevrimdışı uygulama kabuğu güçlendirildi; ana ekran ve temel modül yüzeyleri service worker önbelleğine alındı, ağ kesintisinde son erişilen ekranların açılması iyileştirildi.
