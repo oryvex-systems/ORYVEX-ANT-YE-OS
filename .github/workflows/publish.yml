@@ -56,13 +56,16 @@ jobs:
               sed -i 's#</body>#<script src="pwa.js"></script></body>#' "$f"
             fi
           done
+          SOURCE_SHA=$(git -C oryvex-source rev-parse HEAD)
+          PUBLISHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          printf '{"source_sha":"%s","published_at":"%s","domain":"revakhali.info"}\n' "$SOURCE_SHA" "$PUBLISHED_AT" > publish/build.json
           echo 'revakhali.info' > publish/CNAME
           touch publish/.nojekyll
 
       - name: Validate app surface
         run: |
           set -euo pipefail
-          required=(index.html giris.html modul.html kullanicilar.html sistem-kontrol.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js session-watch.js runtime-fixes.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg)
+          required=(404.html index.html giris.html modul.html kullanicilar.html sistem-kontrol.html merkez.html operasyon.html yonetim.html finans.html depo-evrak.html raporlar.html yonetici.html ayarlar.html hareketler.html global-nav.js activity-nav.js access-ui.js session-watch.js runtime-fixes.js pwa.js service-worker.js manifest.webmanifest oryvex-santiye-icon.svg build.json)
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
@@ -76,19 +79,16 @@ jobs:
             grep -q 'manifest.webmanifest' "$f" || { echo "Manifest link missing from $f"; exit 1; }
           done
 
-          # Company-internal authentication contract: username/password only, no public sign-up UI.
           grep -q 'name="username"' publish/giris.html
           grep -q 'name="password"' publish/giris.html
           grep -q 'santiye-username-login' publish/giris.html
           ! grep -qi 'Kayıt Ol' publish/giris.html || { echo 'Public sign-up text found on login screen'; exit 1; }
           ! grep -qi 'name="email"' publish/giris.html || { echo 'Email login field found; internal username login is required'; exit 1; }
 
-          # Admin-only user provisioning must remain wired to protected server functions.
           grep -q 'santiye-admin-user' publish/kullanicilar.html
           grep -q 'santiye-admin-users' publish/kullanicilar.html
           grep -q 'santiye_internal_users' publish/kullanicilar.html
 
-          # Core application modules must remain reachable from the unified module screen.
           for mode in projeler gunluk isler malzeme satinalma taseron hakedis fotograf bildirim; do
             grep -q "${mode}" publish/modul.html || { echo "Missing module mode: ${mode}"; exit 1; }
           done
@@ -106,6 +106,7 @@ jobs:
           grep -q 'projectBound' publish/runtime-fixes.js
           grep -q 'serviceWorker' publish/pwa.js
           grep -q 'standalone' publish/manifest.webmanifest
+          grep -q 'source_sha' publish/build.json
           grep -q 'revakhali.info' publish/CNAME
           node --check publish/global-nav.js
           node --check publish/activity-nav.js
@@ -115,6 +116,7 @@ jobs:
           node --check publish/pwa.js
           node --check publish/service-worker.js
           node -e "JSON.parse(require('fs').readFileSync('publish/manifest.webmanifest','utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('publish/build.json','utf8'))"
           echo "ORYVEX SANTIYE OS validation passed."
 
       - name: Publish gh-pages branch
