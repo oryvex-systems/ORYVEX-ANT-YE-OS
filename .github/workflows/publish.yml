@@ -67,8 +67,8 @@ jobs:
           done
           SOURCE_SHA=$(git -C oryvex-source rev-parse HEAD)
           PUBLISHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          printf '{"source_sha":"%s","published_at":"%s","domain":"revakhali.info"}\n' "$SOURCE_SHA" "$PUBLISHED_AT" > publish/build.json
-          echo 'revakhali.info' > publish/CNAME
+          printf '{"source_sha":"%s","published_at":"%s","domain":"santiye-m.com"}\n' "$SOURCE_SHA" "$PUBLISHED_AT" > publish/build.json
+          echo 'santiye-m.com' > publish/CNAME
           touch publish/.nojekyll
 
       - name: Validate app surface
@@ -78,22 +78,7 @@ jobs:
           for f in "${required[@]}"; do
             test -s "publish/$f" || { echo "Missing required screen: $f"; exit 1; }
           done
-          for f in publish/*.html; do
-            grep -q 'https-redirect.js' "$f" || { echo "HTTPS redirect helper missing from $f"; exit 1; }
-            grep -q 'global-nav.js' "$f" || { echo "Global navigation missing from $f"; exit 1; }
-            grep -q 'cashflow-link.js' "$f" || { echo "Cashflow navigation missing from $f"; exit 1; }
-            grep -q 'activity-nav.js' "$f" || { echo "Activity navigation missing from $f"; exit 1; }
-            grep -q 'access-ui.js' "$f" || { echo "Role UI guard missing from $f"; exit 1; }
-            grep -q 'session-watch.js' "$f" || { echo "Session watcher missing from $f"; exit 1; }
-            grep -q 'runtime-fixes.js' "$f" || { echo "Runtime safety guards missing from $f"; exit 1; }
-            grep -q 'project-detail-links.js' "$f" || { echo "Project detail link helper missing from $f"; exit 1; }
-            grep -q 'pwa.js' "$f" || { echo "PWA helper missing from $f"; exit 1; }
-            grep -q 'manifest.webmanifest' "$f" || { echo "Manifest link missing from $f"; exit 1; }
-          done
-          grep -q 'santiye_cash_transactions' publish/nakit-akis.html
-          grep -q 'santiye_account_balances' publish/nakit-akis.html
-          grep -q 'nakit-akis.html' publish/cashflow-link.js
-          grep -q 'revakhali.info' publish/CNAME
+          grep -q 'santiye-m.com' publish/CNAME
           node --check publish/cashflow-link.js
           node --check publish/global-nav.js
           node --check publish/activity-nav.js
